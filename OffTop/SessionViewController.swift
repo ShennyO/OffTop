@@ -9,7 +9,11 @@
 import UIKit
 
 class SessionViewController: UIViewController {
-
+    
+    //MARK: VARIABLES
+    private var currentWord = "Banjo"
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.9529411765, green: 0.2274509804, blue: 0.2431372549, alpha: 1)
@@ -43,7 +47,6 @@ class SessionViewController: UIViewController {
     
     private var wordLabel: UILabel = {
         let label = UILabel()
-        label.text = "Banjo"
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 75)
         label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return label
@@ -78,6 +81,7 @@ class SessionViewController: UIViewController {
     
     //MARK: Add Outlets
     private func addOutlets() {
+        wordLabel.text = currentWord
         self.view.addSubview(streakLabel)
         self.view.addSubview(streakValueLabel)
         self.view.addSubview(wordLabel)

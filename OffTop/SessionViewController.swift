@@ -16,7 +16,7 @@ class SessionViewController: UIViewController {
     private var currentWord = "Banjo"
     let audioEngine = AVAudioEngine()
     let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
-    let request = SFSpeechAudioBufferRecognitionRequest()
+    var request: SFSpeechAudioBufferRecognitionRequest = SFSpeechAudioBufferRecognitionRequest()
     var recognitionTask: SFSpeechRecognitionTask?
     
     
@@ -27,6 +27,7 @@ class SessionViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = false
         addOutlets()
         setConstraints()
+        recordAndRecognizeSpeech()
         
     }
     
@@ -140,13 +141,29 @@ class SessionViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    //MARK: Recording Function
+    
+    //MARK: End Recording
+    private func endSpeechRecognition(node: AVAudioInputNode, completionHandler handler: @escaping () ->()) {
+        audioEngine.stop()
+        node.removeTap(onBus: 0)
+        recognitionTask?.cancel()
+        request.endAudio()
+        handler()
+        
+    }
+    
+    //MARK: Start and Record Function
     private func recordAndRecognizeSpeech() {
+        
+
         let node = audioEngine.inputNode
         let recordingFormat = node.outputFormat(forBus: 0)
+        request = SFSpeechAudioBufferRecognitionRequest()
         node.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, _) in
+            
             self.request.append(buffer)
         }
+        
         audioEngine.prepare()
         do {
             try audioEngine.start()
@@ -162,10 +179,18 @@ class SessionViewController: UIViewController {
             return
         }
         
+        
+        
         recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { (result, error) in
             if let result = result {
                 let resultingString = result.bestTranscription.formattedString
+//                let stringArray = resultingString.byWords
+                
                 self.wordLabel.text = resultingString
+                self.endSpeechRecognition(node: node, completionHandler: {
+                    self.recordAndRecognizeSpeech()
+                })
+
             } else {
                 print(error)
             }

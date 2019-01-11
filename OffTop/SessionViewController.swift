@@ -13,9 +13,10 @@ import Speech
 class SessionViewController: UIViewController {
     
     //MARK: VARIABLES
-    private var testWords = ["banjo", "frisco", "disco", "loco", "polo", "promo", "rainbow", "moto", "fellatio", "embryo", "plateau", "pluto", "monroe"]
+    private var testWords = ["attention", "hesitation", "suspension", "dimension", "mention", "situation", "equation", "precipatation", "duration", "unstoppable", "possible", "atonished"]
     private var currentWord = ""
     private var index = 0
+    private var streak = 0
     let audioEngine = AVAudioEngine()
     let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
     var request: SFSpeechAudioBufferRecognitionRequest = SFSpeechAudioBufferRecognitionRequest()
@@ -50,7 +51,7 @@ class SessionViewController: UIViewController {
     
     private var streakValueLabel: UILabel = {
         let label = UILabel()
-        label.text = "10"
+        label.text = "0"
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 25)
         label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return label
@@ -186,10 +187,15 @@ class SessionViewController: UIViewController {
         
         recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { (result, error) in
             if let result = result {
+                //from this point, we need to filter the string to see if it contains the current word
+                //if it contains the current word, we fire a networking request to the words api to get a new word, set it as the new current, then we call endSpeechRecognition to reset
+                
                 let resultingString = result.bestTranscription.formattedString.lowercased()
                 print(resultingString)
                 if resultingString.contains(self.currentWord) {
                     self.index += 1
+                    self.streak += 1
+                    self.streakValueLabel.text = String(self.streak)
                     self.currentWord = self.testWords[self.index]
                     self.wordLabel.text = self.currentWord
                     self.endSpeechRecognition(node: node, completionHandler: {
@@ -198,8 +204,6 @@ class SessionViewController: UIViewController {
                 } else {
                     print("Nothing")
                 }
-                //from this point, we need to filter the string to see if it contains the current word
-                //if it contains the current word, we fire a networking request to the words api to get a new word, set it as the new current, then we call endSpeechRecognition to reset
                 
                 
 

@@ -65,7 +65,7 @@ class initialViewController: UIViewController {
     
     private var instructionStepTwo: UILabel = {
         let label = UILabel()
-        label.text = "Say a line using the word as a punchline before time runs out."
+        label.text = "Say a line using the word as the final punchline."
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
         label.numberOfLines = 2
         label.textColor = #colorLiteral(red: 0.231372549, green: 0.2509803922, blue: 0.2784313725, alpha: 1)

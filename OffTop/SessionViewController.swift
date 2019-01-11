@@ -13,7 +13,9 @@ import Speech
 class SessionViewController: UIViewController {
     
     //MARK: VARIABLES
-    private var currentWord = "Banjo"
+    private var testWords = ["banjo", "frisco", "disco", "loco", "polo", "promo", "rainbow", "moto", "fellatio", "embryo", "plateau", "pluto", "monroe"]
+    private var currentWord = ""
+    private var index = 0
     let audioEngine = AVAudioEngine()
     let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
     var request: SFSpeechAudioBufferRecognitionRequest = SFSpeechAudioBufferRecognitionRequest()
@@ -23,6 +25,7 @@ class SessionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        currentWord = testWords[index]
         view.backgroundColor = #colorLiteral(red: 0.9529411765, green: 0.2274509804, blue: 0.2431372549, alpha: 1)
         navigationController?.navigationBar.prefersLargeTitles = false
         addOutlets()
@@ -183,13 +186,22 @@ class SessionViewController: UIViewController {
         
         recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { (result, error) in
             if let result = result {
-                let resultingString = result.bestTranscription.formattedString
-//                let stringArray = resultingString.byWords
+                let resultingString = result.bestTranscription.formattedString.lowercased()
+                print(resultingString)
+                if resultingString.contains(self.currentWord) {
+                    self.index += 1
+                    self.currentWord = self.testWords[self.index]
+                    self.wordLabel.text = self.currentWord
+                    self.endSpeechRecognition(node: node, completionHandler: {
+                        self.recordAndRecognizeSpeech()
+                    })
+                } else {
+                    print("Nothing")
+                }
+                //from this point, we need to filter the string to see if it contains the current word
+                //if it contains the current word, we fire a networking request to the words api to get a new word, set it as the new current, then we call endSpeechRecognition to reset
                 
-                self.wordLabel.text = resultingString
-                self.endSpeechRecognition(node: node, completionHandler: {
-                    self.recordAndRecognizeSpeech()
-                })
+                
 
             } else {
                 print(error)

@@ -143,6 +143,9 @@ class SessionViewController: UIViewController {
     
     @objc private func popVC() {
         self.navigationController?.popViewController(animated: true)
+        audioEngine.stop()
+        recognitionTask?.cancel()
+        request.endAudio()
     }
     
     

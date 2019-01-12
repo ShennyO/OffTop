@@ -13,7 +13,7 @@ import Speech
 class SessionViewController: UIViewController {
     
     //MARK: VARIABLES
-    private var testWords = ["attention", "hesitation", "suspension", "dimension", "mention", "situation", "equation", "precipatation", "duration", "unstoppable", "possible", "atonished"]
+    private var testWords = ["attention", "hesitation", "suspension", "dimension", "mention", "situation", "equation", "duration", "presentation", "pension", "1", "2", "3"]
     private var currentWord = ""
     private var index = 0
     private var streak = 0

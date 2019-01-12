@@ -13,9 +13,8 @@ import Speech
 class SessionViewController: UIViewController {
     
     //MARK: VARIABLES
-    private var testWords = ["attention", "hesitation", "suspension", "dimension", "mention", "situation", "equation", "duration", "presentation", "pension", "1", "2", "3"]
+    
     private var currentWord = ""
-    private var index = 0
     private var streak = 0
     let audioEngine = AVAudioEngine()
     let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
@@ -26,7 +25,7 @@ class SessionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentWord = testWords[index]
+        getRhyme(word: "go")
         view.backgroundColor = #colorLiteral(red: 0.9529411765, green: 0.2274509804, blue: 0.2431372549, alpha: 1)
         navigationController?.navigationBar.prefersLargeTitles = false
         addOutlets()
@@ -139,6 +138,25 @@ class SessionViewController: UIViewController {
         
     }
     
+    //MARK: get the next rhyming word
+    private func getRhyme(word: String) {
+        Network.instance.fetch(word: ["rel_rhy" : word]) { (data, response) in
+            let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as! [[String: Any]]
+            
+            
+            
+            let randomInt = Int.random(in: 0 ..< (json?.count)!)
+            let word = json![randomInt]["word"] as! String
+            let wordArray = word.components(separatedBy: " ")
+            print(wordArray)
+            self.currentWord = wordArray.last!
+            
+            DispatchQueue.main.async {
+                self.wordLabel.text = wordArray.last
+            }
+        }
+    }
+    
     
     
     @objc private func popVC() {
@@ -196,11 +214,10 @@ class SessionViewController: UIViewController {
                 let resultingString = result.bestTranscription.formattedString.lowercased()
                 print(resultingString)
                 if resultingString.contains(self.currentWord) {
-                    self.index += 1
+                    
                     self.streak += 1
                     self.streakValueLabel.text = String(self.streak)
-                    self.currentWord = self.testWords[self.index]
-                    self.wordLabel.text = self.currentWord
+                    self.getRhyme(word: self.wordLabel.text ?? "Oops")
                     self.endSpeechRecognition(node: node, completionHandler: {
                         self.recordAndRecognizeSpeech()
                     })

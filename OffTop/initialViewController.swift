@@ -70,6 +70,7 @@ class initialViewController: UIViewController {
         let label = UILabel()
         label.text = "A word will be provided at the top."
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
+        label.numberOfLines = 0
         label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
         return label
     }()
@@ -78,7 +79,7 @@ class initialViewController: UIViewController {
         let label = UILabel()
         label.text = "Say a line using the word as the final punchline."
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
         return label
     }()
@@ -88,7 +89,7 @@ class initialViewController: UIViewController {
         label.text = "A new rhyming word will be provided afterwards."
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
         label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         return label
     }()
     
@@ -96,6 +97,7 @@ class initialViewController: UIViewController {
         let label = UILabel()
         label.text = "How many lines can you come up with?"
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
+        label.numberOfLines = 0
         label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
         return label
     }()
@@ -147,6 +149,7 @@ class initialViewController: UIViewController {
         instructionStepOne.snp.makeConstraints { (make) in
             make.top.equalTo(instructionLabel.snp.bottom).offset(15)
             make.left.equalToSuperview().offset(22)
+            make.right.equalToSuperview().offset(-22)
         }
         
         instructionStepTwo.snp.makeConstraints { (make) in
@@ -164,6 +167,7 @@ class initialViewController: UIViewController {
         instructionStepFour.snp.makeConstraints { (make) in
             make.top.equalTo(instructionStepThree.snp.bottom).offset(15)
             make.left.equalToSuperview().offset(22)
+            make.right.equalToSuperview().offset(-22)
         }
         
         startButton.snp.makeConstraints { (make) in

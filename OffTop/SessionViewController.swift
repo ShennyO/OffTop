@@ -21,7 +21,7 @@ class SessionViewController: UIViewController {
     private var currentWord = ""
     private var streak = 0
     private var seconds = 5
-    private let timer = Timer()
+    private var timer = Timer()
     private var isTimerRunning = false
     private var node: AVAudioInputNode!
     private let audioEngine = AVAudioEngine()
@@ -35,7 +35,7 @@ class SessionViewController: UIViewController {
         super.viewDidLoad()
         getRhyme(word: "go")
         view.backgroundColor = #colorLiteral(red: 0.007843137255, green: 0.03137254902, blue: 0.2862745098, alpha: 1)
-        
+        runTimer()
         addOutlets()
         setConstraints()
         recordAndRecognizeSpeech()
@@ -112,6 +112,27 @@ class SessionViewController: UIViewController {
     
     //MARK: Private Functions
     
+    private func resetTimer() {
+        timer.invalidate()
+        seconds = 5
+        runTimer()
+        secondsLabel.text = "\(seconds)"
+    }
+    
+    private func runTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
+    }
+    
+    @objc private func updateTimer() {
+        if seconds < 1 {
+            timer.invalidate()
+            //Send alert to indicate "time's up!"
+        } else {
+            seconds -= 1
+            secondsLabel.text = "\(seconds)"
+        }
+    }
+    
     //MARK: Add Outlets
     private func addOutlets() {
         wordLabel.text = currentWord
@@ -171,8 +192,6 @@ class SessionViewController: UIViewController {
         Network.instance.fetch(word: ["rel_rhy" : word]) { (data, response) in
             let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as! [[String: Any]]
             
-            
-            
             let randomInt = Int.random(in: 0 ..< (json?.count)!)
             let word = json![randomInt]["word"] as! String
             let wordArray = word.components(separatedBy: " ")
@@ -198,6 +217,7 @@ class SessionViewController: UIViewController {
 //    MARK: Skip Button
     @objc private func skip() {
         self.getRhyme(word: self.wordLabel.text ?? "Oops")
+        resetTimer()
         self.endSpeechRecognition(completionHandler: {
             self.recordAndRecognizeSpeech()
         })
@@ -253,7 +273,8 @@ class SessionViewController: UIViewController {
                     
                     self.streak += 1
                     self.streakValueLabel.text = String(self.streak)
-                    self.getRhyme(word: self.wordLabel.text ?? "Oops")
+                    self.getRhyme(word: self.wordLabel.text!)
+                    self.resetTimer()
                     self.endSpeechRecognition(completionHandler: {
                         self.recordAndRecognizeSpeech()
                     })

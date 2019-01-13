@@ -18,7 +18,7 @@ class initialViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.007843137255, green: 0.03137254902, blue: 0.2862745098, alpha: 1)
-        self.title = "OffTop"
+        self.title = "Bars"
         addOutlets()
         setConstraints()
         // Do any additional setup after loading the view.

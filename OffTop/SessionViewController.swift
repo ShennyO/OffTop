@@ -38,6 +38,7 @@ class SessionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         getRhyme(word: "go")
         view.backgroundColor = #colorLiteral(red: 0.007843137255, green: 0.03137254902, blue: 0.2862745098, alpha: 1)
         
@@ -56,17 +57,11 @@ class SessionViewController: UIViewController {
         //        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         //        self.navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+//        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     //MARK: UIOUTLETS
     
-    private var backButton: UIButton = {
-        let button  = UIButton(type: .custom)
-        button.setImage(UIImage(named: "back"), for: .normal)
-        button.addTarget(self, action: #selector(popVC), for: .touchUpInside)
-        return button
-    }()
     
     private var streakLabel: UILabel = {
         let label = UILabel()
@@ -143,7 +138,6 @@ class SessionViewController: UIViewController {
     //MARK: Add Outlets
     private func addOutlets() {
         wordLabel.text = currentWord
-        self.view.addSubview(backButton)
         self.view.addSubview(streakLabel)
         self.view.addSubview(streakValueLabel)
         self.view.addSubview(wordLabel)
@@ -155,19 +149,15 @@ class SessionViewController: UIViewController {
     //MARK: Set Constraints
     private func setConstraints() {
         
-        backButton.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(20)
-            make.top.equalToSuperview().offset(35)
-        }
         
         streakValueLabel.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-15)
-            make.top.equalToSuperview().offset(35)
+            make.top.equalToSuperview().offset(65)
         }
         
         streakLabel.snp.makeConstraints { (make) in
             make.right.equalTo(streakValueLabel.snp.left).offset(-5)
-            make.top.equalToSuperview().offset(35)
+            make.top.equalToSuperview().offset(65)
         }
         
         wordLabel.snp.makeConstraints { (make) in
@@ -228,14 +218,13 @@ class SessionViewController: UIViewController {
         }
     }
     
-    
-    
-    @objc private func popVC() {
-        self.navigationController?.popViewController(animated: true)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         audioEngine.stop()
         recognitionTask?.cancel()
         request.endAudio()
     }
+    
     
     
 //    MARK: Skip Button

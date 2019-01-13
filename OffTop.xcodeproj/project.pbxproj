@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8410D93221EA637B008844A2 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8410D93121EA637B008844A2 /* Networking.swift */; };
+		8410D93621EBD6BC008844A2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8410D93521EBD6BC008844A2 /* Extensions.swift */; };
 		8419395321E58B4A00ACE6EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419395221E58B4A00ACE6EF /* AppDelegate.swift */; };
 		8419395A21E58B4B00ACE6EF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8419395921E58B4B00ACE6EF /* Assets.xcassets */; };
 		8419395D21E58B4B00ACE6EF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8419395B21E58B4B00ACE6EF /* LaunchScreen.storyboard */; };
@@ -15,7 +16,6 @@
 		8419397321E58B4B00ACE6EF /* OffTopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419397221E58B4B00ACE6EF /* OffTopUITests.swift */; };
 		8419398121E67D5400ACE6EF /* initialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419398021E67D5400ACE6EF /* initialViewController.swift */; };
 		8419398321E6A31000ACE6EF /* SessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8419398221E6A31000ACE6EF /* SessionViewController.swift */; };
-		849AC5B921E8127C002E5DD2 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849AC5B821E8127C002E5DD2 /* StringExtension.swift */; };
 		95D222D41DC9C0EE0DA05013 /* Pods_OffTopUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63BF86180D34088B1EE9C3FA /* Pods_OffTopUITests.framework */; };
 		A6BD7E97A7C4C6220C98B44B /* Pods_OffTopTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3B6126A22DFB9C06BBD7C9C /* Pods_OffTopTests.framework */; };
 		D34BBAA44A977642F2E8761A /* Pods_OffTop.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1222925E09B878FF3F5D1413 /* Pods_OffTop.framework */; };
@@ -45,6 +45,7 @@
 		3B025A90D989ECE39162923D /* Pods-OffTop.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OffTop.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OffTop/Pods-OffTop.debug.xcconfig"; sourceTree = "<group>"; };
 		63BF86180D34088B1EE9C3FA /* Pods_OffTopUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OffTopUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8410D93121EA637B008844A2 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		8410D93521EBD6BC008844A2 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		8419394F21E58B4A00ACE6EF /* OffTop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OffTop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8419395221E58B4A00ACE6EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8419395921E58B4B00ACE6EF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -58,7 +59,6 @@
 		8419397421E58B4B00ACE6EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8419398021E67D5400ACE6EF /* initialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = initialViewController.swift; sourceTree = "<group>"; };
 		8419398221E6A31000ACE6EF /* SessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewController.swift; sourceTree = "<group>"; };
-		849AC5B821E8127C002E5DD2 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		9431ABCAD08752049F704B1B /* Pods-OffTop.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OffTop.release.xcconfig"; path = "Pods/Target Support Files/Pods-OffTop/Pods-OffTop.release.xcconfig"; sourceTree = "<group>"; };
 		B44F785A08E5E6B4EF990D14 /* Pods-OffTopTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OffTopTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OffTopTests/Pods-OffTopTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C3B6126A22DFB9C06BBD7C9C /* Pods_OffTopTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OffTopTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,7 +145,7 @@
 				8419398021E67D5400ACE6EF /* initialViewController.swift */,
 				8419398221E6A31000ACE6EF /* SessionViewController.swift */,
 				8410D93121EA637B008844A2 /* Networking.swift */,
-				849AC5B821E8127C002E5DD2 /* StringExtension.swift */,
+				8410D93521EBD6BC008844A2 /* Extensions.swift */,
 				8419395921E58B4B00ACE6EF /* Assets.xcassets */,
 				8419395B21E58B4B00ACE6EF /* LaunchScreen.storyboard */,
 				8419395E21E58B4B00ACE6EF /* Info.plist */,
@@ -460,7 +460,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				849AC5B921E8127C002E5DD2 /* StringExtension.swift in Sources */,
+				8410D93621EBD6BC008844A2 /* Extensions.swift in Sources */,
 				8410D93221EA637B008844A2 /* Networking.swift in Sources */,
 				8419398321E6A31000ACE6EF /* SessionViewController.swift in Sources */,
 				8419395321E58B4A00ACE6EF /* AppDelegate.swift in Sources */,

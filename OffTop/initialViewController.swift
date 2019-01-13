@@ -17,6 +17,9 @@ class initialViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        hideKeyboardWhenTappedAround()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         view.backgroundColor = #colorLiteral(red: 0.007843137255, green: 0.03137254902, blue: 0.2862745098, alpha: 1)
         self.title = "Bars"
@@ -69,7 +72,7 @@ class initialViewController: UIViewController {
     
     private var instructionStepOne: UILabel = {
         let label = UILabel()
-        label.text = "A word will be provided at the top."
+        label.text = "Pick your own word to start with below."
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
         label.numberOfLines = 0
         label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
@@ -103,6 +106,31 @@ class initialViewController: UIViewController {
         return label
     }()
     
+    private var reminderLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Tap below to enter a word"
+        label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 22)
+        label.textAlignment = .center
+        label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
+        return label
+    }()
+    
+    private var wordTextField: UITextField = {
+        let textField = UITextField()
+        textField.textColor = UIColor.white
+        textField.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 30)
+        textField.textAlignment = .center
+        textField.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.03921568627, blue: 0.2745098039, alpha: 1)
+        return textField
+    }()
+    
+    
+    private var textFieldUnderline: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        return view
+    }()
+    
     private var startButton: UIButton = {
         var button = UIButton(type: .system)
         button.layer.cornerRadius = 25
@@ -125,6 +153,9 @@ class initialViewController: UIViewController {
             self.containerView.addSubview(view)
         }
         
+        self.view.addSubview(reminderLabel)
+        self.view.addSubview(wordTextField)
+        self.view.addSubview(textFieldUnderline)
         self.view.addSubview(startButton)
         
     }
@@ -138,8 +169,8 @@ class initialViewController: UIViewController {
         containerView.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(50)
             make.right.equalToSuperview().offset(-50)
-            make.height.equalTo(300)
-            make.top.equalToSuperview().offset(180)
+            make.height.equalTo(280)
+            make.top.equalToSuperview().offset(160)
         }
         
         instructionLabel.snp.makeConstraints { (make) in
@@ -171,8 +202,28 @@ class initialViewController: UIViewController {
             make.right.equalToSuperview().offset(-22)
         }
         
+        reminderLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(containerView.snp.bottom).offset(40)
+            make.left.equalToSuperview().offset(50)
+            make.right.equalToSuperview().offset(-50)
+        }
+        
+        wordTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(reminderLabel.snp.bottom).offset(30)
+            make.height.equalTo(50)
+            make.left.equalToSuperview().offset(50)
+            make.right.equalToSuperview().offset(-50)
+        }
+        
+        textFieldUnderline.snp.makeConstraints { (make) in
+            make.top.equalTo(wordTextField.snp.bottom).offset(-8)
+            make.right.equalToSuperview().offset(-65)
+            make.left.equalToSuperview().offset(65)
+            make.height.equalTo(4)
+        }
+        
         startButton.snp.makeConstraints { (make) in
-            make.top.equalTo(containerView.snp.bottom).offset(110)
+            make.top.equalTo(textFieldUnderline.snp.bottom).offset(60)
             make.centerX.equalToSuperview()
             make.width.equalTo(250)
             make.height.equalTo(55)
@@ -180,9 +231,29 @@ class initialViewController: UIViewController {
         
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+                self.containerView.isHidden = true
+                self.startButton.isHidden = true
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+            self.containerView.isHidden = false
+            self.startButton.isHidden = false
+        }
+    }
+    
     @objc private func startButtonSegue() {
         
         let nextVC = SessionViewController()
+        guard let word = wordTextField.text else {return}
+        nextVC.currentWord = word.lowercased()
         self.navigationController?.pushViewController(nextVC, animated: true)
         
     }

@@ -18,7 +18,7 @@ class SessionViewController: UIViewController {
     
     //MARK: VARIABLES
     
-    private var currentWord = ""
+    var currentWord = ""
     private var streak = 0
     
     //MARK: TIMER VARIABLES
@@ -39,7 +39,7 @@ class SessionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.tintColor = UIColor.white
-        getRhyme(word: "go")
+//        getRhyme(word: "go")
         view.backgroundColor = #colorLiteral(red: 0.007843137255, green: 0.03137254902, blue: 0.2862745098, alpha: 1)
         
         runTimer()
@@ -54,10 +54,8 @@ class SessionViewController: UIViewController {
         extendedLayoutIncludesOpaqueBars = true
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.01568627451, green: 0.03921568627, blue: 0.2745098039, alpha: 1)
-        //        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        //        self.navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = false
-//        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.wordLabel.text = currentWord
     }
 
     //MARK: UIOUTLETS

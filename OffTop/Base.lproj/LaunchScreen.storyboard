@@ -17,25 +17,7 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OffTop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EcZ-Xw-8Q9">
-                                <rect key="frame" x="54" y="105" width="267" height="84.5"/>
-                                <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="70"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="musicIcon" translatesAutoresizingMaskIntoConstraints="NO" id="aaq-iT-TZe">
-                                <rect key="frame" x="75" y="229.5" width="225" height="225"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="EcZ-Xw-8Q9" secondAttribute="trailing" constant="54" id="OqP-Q1-Dtq"/>
-                            <constraint firstItem="EcZ-Xw-8Q9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="85" id="PWv-Am-5h0"/>
-                            <constraint firstItem="EcZ-Xw-8Q9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="54" id="Rnp-cX-BHN"/>
-                            <constraint firstItem="aaq-iT-TZe" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ee3-7E-cKd"/>
-                            <constraint firstItem="aaq-iT-TZe" firstAttribute="top" secondItem="EcZ-Xw-8Q9" secondAttribute="bottom" constant="40" id="hvI-BV-MAs"/>
-                        </constraints>
+                        <color key="backgroundColor" red="0.0078431372549019607" green="0.031372549019607843" blue="0.28627450980392155" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -44,7 +26,4 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="musicIcon" width="225" height="225"/>
-    </resources>
 </document>

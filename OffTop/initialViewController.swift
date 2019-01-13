@@ -13,7 +13,7 @@ class initialViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = #colorLiteral(red: 0.007843137255, green: 0.03137254902, blue: 0.2862745098, alpha: 1)
         self.title = "OffTop"
         addOutlets()
         setConstraints()
@@ -22,8 +22,16 @@ class initialViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        extendedLayoutIncludesOpaqueBars = true
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.01568627451, green: 0.03921568627, blue: 0.2745098039, alpha: 1)
+
+        navigationController?.navigationBar.isTranslucent = false
+        
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+
+
         navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     //MARK: UI Variables
@@ -36,13 +44,15 @@ class initialViewController: UIViewController {
     
     let containerView: UIView = {
         let containerView = UIView()
-        containerView.backgroundColor = UIColor.white
+        containerView.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.03921568627, blue: 0.2745098039, alpha: 1)
         containerView.layer.cornerRadius = 15
-        containerView.layer.shadowColor = #colorLiteral(red: 0.231372549, green: 0.2509803922, blue: 0.2784313725, alpha: 1)
-        containerView.layer.shadowRadius = 2.0
-        containerView.layer.shadowOpacity = 1.0
-        containerView.layer.shadowOffset = CGSize(width: 0, height: 1)
-        containerView.layer.masksToBounds = false
+        containerView.layer.borderWidth = 5
+        containerView.layer.borderColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
+//        containerView.layer.shadowColor = #colorLiteral(red: 0.231372549, green: 0.2509803922, blue: 0.2784313725, alpha: 1)
+//        containerView.layer.shadowRadius = 2.0
+//        containerView.layer.shadowOpacity = 1.0
+//        containerView.layer.shadowOffset = CGSize(width: 0, height: 1)
+//        containerView.layer.masksToBounds = false
         return containerView
     }()
     
@@ -51,7 +61,7 @@ class initialViewController: UIViewController {
         let label = UILabel()
         label.text = "Instructions:"
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 25)
-        label.textColor = #colorLiteral(red: 0.231372549, green: 0.2509803922, blue: 0.2784313725, alpha: 1)
+        label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
         return label
     }()
     
@@ -59,7 +69,7 @@ class initialViewController: UIViewController {
         let label = UILabel()
         label.text = "A word will be provided at the top."
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
-        label.textColor = #colorLiteral(red: 0.231372549, green: 0.2509803922, blue: 0.2784313725, alpha: 1)
+        label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
         return label
     }()
     
@@ -68,7 +78,7 @@ class initialViewController: UIViewController {
         label.text = "Say a line using the word as the final punchline."
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
         label.numberOfLines = 2
-        label.textColor = #colorLiteral(red: 0.231372549, green: 0.2509803922, blue: 0.2784313725, alpha: 1)
+        label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
         return label
     }()
     
@@ -76,7 +86,7 @@ class initialViewController: UIViewController {
         let label = UILabel()
         label.text = "A new rhyming word will be provided afterwards."
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
-        label.textColor = #colorLiteral(red: 0.231372549, green: 0.2509803922, blue: 0.2784313725, alpha: 1)
+        label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
         label.numberOfLines = 2
         return label
     }()
@@ -85,14 +95,14 @@ class initialViewController: UIViewController {
         let label = UILabel()
         label.text = "How many lines can you come up with?"
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
-        label.textColor = #colorLiteral(red: 0.231372549, green: 0.2509803922, blue: 0.2784313725, alpha: 1)
+        label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
         return label
     }()
     
     private var startButton: UIButton = {
         var button = UIButton(type: .system)
         button.layer.cornerRadius = 25
-        button.backgroundColor = #colorLiteral(red: 0.9529411765, green: 0.2274509804, blue: 0.2431372549, alpha: 1)
+        button.backgroundColor = #colorLiteral(red: 0.2549019608, green: 0.2862745098, blue: 0.6, alpha: 1)
         button.setTitle("Start", for: .normal)
         button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 30)
@@ -104,7 +114,7 @@ class initialViewController: UIViewController {
     
     //MARK: Adding outlets
     private func addOutlets() {
-        self.view.addSubview(logoImage)
+//        self.view.addSubview(logoImage)
         self.view.addSubview(containerView)
         
         [instructionLabel, instructionStepOne, instructionStepTwo, instructionStepThree, instructionStepFour].forEach { (view) in
@@ -120,18 +130,18 @@ class initialViewController: UIViewController {
     //MARK: Constraints
     private func setConstraints() {
         
-        logoImage.snp.makeConstraints { (make) in
-            make.height.equalTo(75)
-            make.width.equalTo(75)
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(150)
-        }
+//        logoImage.snp.makeConstraints { (make) in
+//            make.height.equalTo(75)
+//            make.width.equalTo(75)
+//            make.centerX.equalToSuperview()
+//            make.top.equalToSuperview().offset(150)
+//        }
         
         containerView.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(50)
             make.right.equalToSuperview().offset(-50)
             make.height.equalTo(300)
-            make.top.equalTo(logoImage.snp.bottom).offset(30)
+            make.top.equalToSuperview().offset(180)
         }
         
         instructionLabel.snp.makeConstraints { (make) in
@@ -162,7 +172,7 @@ class initialViewController: UIViewController {
         }
         
         startButton.snp.makeConstraints { (make) in
-            make.top.equalTo(containerView.snp.bottom).offset(65)
+            make.top.equalTo(containerView.snp.bottom).offset(110)
             make.centerX.equalToSuperview()
             make.width.equalTo(250)
             make.height.equalTo(55)

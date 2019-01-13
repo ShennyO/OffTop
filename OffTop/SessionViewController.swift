@@ -16,19 +16,22 @@ class SessionViewController: UIViewController {
     
     private var currentWord = ""
     private var streak = 0
-    var node: AVAudioInputNode!
-    let audioEngine = AVAudioEngine()
-    let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
-    var request: SFSpeechAudioBufferRecognitionRequest = SFSpeechAudioBufferRecognitionRequest()
-    var recognitionTask: SFSpeechRecognitionTask?
+    private var seconds = 5
+    private let timer = Timer()
+    private var isTimerRunning = false
+    private var node: AVAudioInputNode!
+    private let audioEngine = AVAudioEngine()
+    private let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
+    private var request: SFSpeechAudioBufferRecognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+    private var recognitionTask: SFSpeechRecognitionTask?
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         getRhyme(word: "go")
-        view.backgroundColor = #colorLiteral(red: 0.9529411765, green: 0.2274509804, blue: 0.2431372549, alpha: 1)
-        navigationController?.navigationBar.prefersLargeTitles = false
+        view.backgroundColor = #colorLiteral(red: 0.007843137255, green: 0.03137254902, blue: 0.2862745098, alpha: 1)
+        
         addOutlets()
         setConstraints()
         recordAndRecognizeSpeech()
@@ -37,7 +40,13 @@ class SessionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
+        extendedLayoutIncludesOpaqueBars = true
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.01568627451, green: 0.03921568627, blue: 0.2745098039, alpha: 1)
+        //        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        //        self.navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     //MARK: UIOUTLETS
@@ -74,7 +83,7 @@ class SessionViewController: UIViewController {
     
     private var circleView: UIView = {
         let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 0.9529411765, green: 0.2274509804, blue: 0.2431372549, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.007843137255, green: 0.03137254902, blue: 0.2862745098, alpha: 1)
         view.layer.cornerRadius = 100
         view.layer.borderWidth = 10
         view.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)

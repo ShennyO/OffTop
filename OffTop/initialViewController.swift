@@ -10,7 +10,11 @@ import UIKit
 import SnapKit
 
 class initialViewController: UIViewController {
-
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0.007843137255, green: 0.03137254902, blue: 0.2862745098, alpha: 1)
@@ -26,6 +30,8 @@ class initialViewController: UIViewController {
         navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.01568627451, green: 0.03921568627, blue: 0.2745098039, alpha: 1)
 
         navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
         
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
 
@@ -48,11 +54,6 @@ class initialViewController: UIViewController {
         containerView.layer.cornerRadius = 15
         containerView.layer.borderWidth = 5
         containerView.layer.borderColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
-//        containerView.layer.shadowColor = #colorLiteral(red: 0.231372549, green: 0.2509803922, blue: 0.2784313725, alpha: 1)
-//        containerView.layer.shadowRadius = 2.0
-//        containerView.layer.shadowOpacity = 1.0
-//        containerView.layer.shadowOffset = CGSize(width: 0, height: 1)
-//        containerView.layer.masksToBounds = false
         return containerView
     }()
     
@@ -130,12 +131,6 @@ class initialViewController: UIViewController {
     //MARK: Constraints
     private func setConstraints() {
         
-//        logoImage.snp.makeConstraints { (make) in
-//            make.height.equalTo(75)
-//            make.width.equalTo(75)
-//            make.centerX.equalToSuperview()
-//            make.top.equalToSuperview().offset(150)
-//        }
         
         containerView.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(50)
@@ -145,30 +140,30 @@ class initialViewController: UIViewController {
         }
         
         instructionLabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(15)
-            make.top.equalToSuperview().offset(15)
+            make.left.equalToSuperview().offset(22)
+            make.top.equalToSuperview().offset(22)
         }
         
         instructionStepOne.snp.makeConstraints { (make) in
             make.top.equalTo(instructionLabel.snp.bottom).offset(15)
-            make.left.equalToSuperview().offset(15)
+            make.left.equalToSuperview().offset(22)
         }
         
         instructionStepTwo.snp.makeConstraints { (make) in
             make.top.equalTo(instructionStepOne.snp.bottom).offset(15)
-            make.left.equalToSuperview().offset(15)
-            make.right.equalToSuperview().offset(-15)
+            make.left.equalToSuperview().offset(22)
+            make.right.equalToSuperview().offset(-22)
         }
         
         instructionStepThree.snp.makeConstraints { (make) in
             make.top.equalTo(instructionStepTwo.snp.bottom).offset(15)
-            make.left.equalToSuperview().offset(15)
-            make.right.equalToSuperview().offset(-15)
+            make.left.equalToSuperview().offset(22)
+            make.right.equalToSuperview().offset(-22)
         }
         
         instructionStepFour.snp.makeConstraints { (make) in
             make.top.equalTo(instructionStepThree.snp.bottom).offset(15)
-            make.left.equalToSuperview().offset(15)
+            make.left.equalToSuperview().offset(22)
         }
         
         startButton.snp.makeConstraints { (make) in

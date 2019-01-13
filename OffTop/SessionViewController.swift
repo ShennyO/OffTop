@@ -12,6 +12,10 @@ import Speech
 
 class SessionViewController: UIViewController {
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     //MARK: VARIABLES
     
     private var currentWord = ""

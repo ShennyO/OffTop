@@ -20,9 +20,14 @@ class SessionViewController: UIViewController {
     
     private var currentWord = ""
     private var streak = 0
+    
+    //MARK: TIMER VARIABLES
+    
     private var seconds = 5
     private var timer = Timer()
-    private var isTimerRunning = false
+    
+    //MARK: SPEECH RECOGNITION VARIABLES
+    
     private var node: AVAudioInputNode!
     private let audioEngine = AVAudioEngine()
     private let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
@@ -35,6 +40,7 @@ class SessionViewController: UIViewController {
         super.viewDidLoad()
         getRhyme(word: "go")
         view.backgroundColor = #colorLiteral(red: 0.007843137255, green: 0.03137254902, blue: 0.2862745098, alpha: 1)
+        
         runTimer()
         addOutlets()
         setConstraints()
@@ -119,6 +125,7 @@ class SessionViewController: UIViewController {
         secondsLabel.text = "\(seconds)"
     }
     
+    
     private func runTimer() {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(updateTimer)), userInfo: nil, repeats: true)
     }
@@ -187,6 +194,19 @@ class SessionViewController: UIViewController {
         
     }
     
+    
+    //MARK: Animate Label
+    private func animateLabel() {
+        UIView.animate(withDuration: 0.5) {
+            self.wordLabel.transform = CGAffineTransform(scaleX: 1.3, y: 1.3) //Scale label area
+        }
+        UIView.animate(withDuration: 0.5, delay: 0.5, options: [], animations: {
+            self.wordLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+        }, completion: { (Bool) in
+            return
+        })
+    }
+    
     //MARK: get the next rhyming word
     private func getRhyme(word: String) {
         Network.instance.fetch(word: ["rel_rhy" : word]) { (data, response) in
@@ -199,7 +219,11 @@ class SessionViewController: UIViewController {
             self.currentWord = wordArray.last!
             
             DispatchQueue.main.async {
+               
                 self.wordLabel.text = wordArray.last
+                self.animateLabel()
+                
+                
             }
         }
     }
@@ -216,11 +240,13 @@ class SessionViewController: UIViewController {
     
 //    MARK: Skip Button
     @objc private func skip() {
-        self.getRhyme(word: self.wordLabel.text ?? "Oops")
+        
+        self.getRhyme(word: self.wordLabel.text!)
         resetTimer()
         self.endSpeechRecognition(completionHandler: {
             self.recordAndRecognizeSpeech()
         })
+        
     }
     
     //MARK: End Recording
@@ -264,8 +290,6 @@ class SessionViewController: UIViewController {
         
         recognitionTask = speechRecognizer?.recognitionTask(with: request, resultHandler: { (result, error) in
             if let result = result {
-                //from this point, we need to filter the string to see if it contains the current word
-                //if it contains the current word, we fire a networking request to the words api to get a new word, set it as the new current, then we call endSpeechRecognition to reset
                 
                 let resultingString = result.bestTranscription.formattedString.lowercased()
                 print(resultingString)
@@ -285,7 +309,7 @@ class SessionViewController: UIViewController {
                 
 
             } else {
-                print(error)
+                print(error as Any)
             }
         })
         

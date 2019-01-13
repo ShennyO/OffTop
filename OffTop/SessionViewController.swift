@@ -16,6 +16,7 @@ class SessionViewController: UIViewController {
     
     private var currentWord = ""
     private var streak = 0
+    var node: AVAudioInputNode!
     let audioEngine = AVAudioEngine()
     let speechRecognizer: SFSpeechRecognizer? = SFSpeechRecognizer()
     var request: SFSpeechAudioBufferRecognitionRequest = SFSpeechAudioBufferRecognitionRequest()
@@ -40,6 +41,14 @@ class SessionViewController: UIViewController {
     }
 
     //MARK: UIOUTLETS
+    
+    private var backButton: UIButton = {
+        let button  = UIButton(type: .custom)
+        button.setImage(UIImage(named: "back"), for: .normal)
+        button.addTarget(self, action: #selector(popVC), for: .touchUpInside)
+        return button
+    }()
+    
     private var streakLabel: UILabel = {
         let label = UILabel()
         label.text = "streak:"
@@ -83,7 +92,7 @@ class SessionViewController: UIViewController {
     private var cancelButton: UIButton = {
         let button  = UIButton(type: .custom)
         button.setImage(UIImage(named: "cancel"), for: .normal)
-        button.addTarget(self, action: #selector(popVC), for: .touchUpInside)
+        button.addTarget(self, action: #selector(skip), for: .touchUpInside)
         return button
     }()
     
@@ -93,6 +102,7 @@ class SessionViewController: UIViewController {
     //MARK: Add Outlets
     private func addOutlets() {
         wordLabel.text = currentWord
+        self.view.addSubview(backButton)
         self.view.addSubview(streakLabel)
         self.view.addSubview(streakValueLabel)
         self.view.addSubview(wordLabel)
@@ -103,6 +113,11 @@ class SessionViewController: UIViewController {
     
     //MARK: Set Constraints
     private func setConstraints() {
+        
+        backButton.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(35)
+        }
         
         streakValueLabel.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-15)
@@ -167,10 +182,18 @@ class SessionViewController: UIViewController {
     }
     
     
+//    MARK: Skip Button
+    @objc private func skip() {
+        self.getRhyme(word: self.wordLabel.text ?? "Oops")
+        self.endSpeechRecognition(completionHandler: {
+            self.recordAndRecognizeSpeech()
+        })
+    }
+    
     //MARK: End Recording
-    private func endSpeechRecognition(node: AVAudioInputNode, completionHandler handler: @escaping () ->()) {
+    private func endSpeechRecognition(completionHandler handler: @escaping () ->()) {
         audioEngine.stop()
-        node.removeTap(onBus: 0)
+        self.node.removeTap(onBus: 0)
         recognitionTask?.cancel()
         request.endAudio()
         handler()
@@ -181,7 +204,7 @@ class SessionViewController: UIViewController {
     private func recordAndRecognizeSpeech() {
         
 
-        let node = audioEngine.inputNode
+        self.node = audioEngine.inputNode
         let recordingFormat = node.outputFormat(forBus: 0)
         request = SFSpeechAudioBufferRecognitionRequest()
         node.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer, _) in
@@ -218,7 +241,7 @@ class SessionViewController: UIViewController {
                     self.streak += 1
                     self.streakValueLabel.text = String(self.streak)
                     self.getRhyme(word: self.wordLabel.text ?? "Oops")
-                    self.endSpeechRecognition(node: node, completionHandler: {
+                    self.endSpeechRecognition(completionHandler: {
                         self.recordAndRecognizeSpeech()
                     })
                 } else {

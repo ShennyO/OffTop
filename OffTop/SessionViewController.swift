@@ -240,12 +240,13 @@ class SessionViewController: UIViewController {
     
 //    MARK: Skip Button
     @objc private func skip() {
-        
-        self.getRhyme(word: self.wordLabel.text!)
-        resetTimer()
-        self.endSpeechRecognition(completionHandler: {
-            self.recordAndRecognizeSpeech()
-        })
+        if seconds < 5 {
+            self.getRhyme(word: self.wordLabel.text!)
+            resetTimer()
+            self.endSpeechRecognition(completionHandler: {
+                self.recordAndRecognizeSpeech()
+            })
+        }
         
     }
     

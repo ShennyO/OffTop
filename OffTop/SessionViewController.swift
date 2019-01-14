@@ -18,7 +18,7 @@ class SessionViewController: UIViewController {
     
     //MARK: VARIABLES
     
-    private var baseWords = ["go", "race", "attention", "luck", "cat"]
+    private var baseWords = ["go", "race","mean", "attention", "luck", "cat"]
     var currentWord = ""
     private var streak = 0
     
@@ -40,9 +40,7 @@ class SessionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.tintColor = UIColor.white
-//        getRhyme(word: "go")
         view.backgroundColor = #colorLiteral(red: 0.007843137255, green: 0.03137254902, blue: 0.2862745098, alpha: 1)
-        
         runTimer()
         addOutlets()
         setConstraints()
@@ -74,6 +72,15 @@ class SessionViewController: UIViewController {
         let label = UILabel()
         label.text = "0"
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 25)
+        label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        return label
+    }()
+    
+    private var plusOneLabel: UILabel = {
+        let label = UILabel()
+        label.text = "+1"
+        label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 40)
+        label.alpha = 0
         label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         return label
     }()
@@ -137,6 +144,7 @@ class SessionViewController: UIViewController {
     //MARK: Add Outlets
     private func addOutlets() {
         wordLabel.text = currentWord
+        self.view.addSubview(plusOneLabel)
         self.view.addSubview(streakLabel)
         self.view.addSubview(streakValueLabel)
         self.view.addSubview(wordLabel)
@@ -157,6 +165,11 @@ class SessionViewController: UIViewController {
         streakLabel.snp.makeConstraints { (make) in
             make.right.equalTo(streakValueLabel.snp.left).offset(-5)
             make.top.equalToSuperview().offset(65)
+        }
+        
+        plusOneLabel.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(60)
+            make.centerX.equalToSuperview()
         }
         
         wordLabel.snp.makeConstraints { (make) in
@@ -183,11 +196,23 @@ class SessionViewController: UIViewController {
         
     }
     
+    //MARK: Animate Streak increment
+    private func animateStreakPlusOne() {
+        
+        self.plusOneLabel.alpha = 1
+        
+        UIView.animate(withDuration: 0.3, delay: 0.6, options: .curveEaseOut, animations: {
+            self.plusOneLabel.alpha = 0
+        }) { (bool) in
+            self.plusOneLabel.alpha = 0
+        }
+        
+    }
     
     //MARK: Animate Label
     private func animateLabel() {
         UIView.animate(withDuration: 0.5) {
-            self.wordLabel.transform = CGAffineTransform(scaleX: 1.3, y: 1.3) //Scale label area
+            self.wordLabel.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         }
         UIView.animate(withDuration: 0.5, delay: 0.5, options: [], animations: {
             self.wordLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
@@ -206,14 +231,11 @@ class SessionViewController: UIViewController {
                 let randomInt = Int.random(in: 0 ..< (self.baseWords.count))
                 self.currentWord = self.baseWords[randomInt]
                 DispatchQueue.main.async {
-                    
                     self.wordLabel.text = self.currentWord
                     self.animateLabel()
                     
-                    
                 }
                 return
-                
             }
             if count > 0 {
                 let randomInt = Int.random(in: 0 ..< (json?.count)!)
@@ -304,7 +326,7 @@ class SessionViewController: UIViewController {
                 let resultingString = result.bestTranscription.formattedString.lowercased()
                 print(resultingString)
                 if resultingString.contains(self.currentWord) {
-                    
+                    self.animateStreakPlusOne()
                     self.streak += 1
                     self.streakValueLabel.text = String(self.streak)
                     self.getRhyme(word: self.wordLabel.text!)

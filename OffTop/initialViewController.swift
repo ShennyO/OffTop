@@ -28,6 +28,7 @@ class initialViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         extendedLayoutIncludesOpaqueBars = true
@@ -42,13 +43,20 @@ class initialViewController: UIViewController {
 
         navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        
+        containerView.isHidden = true
+        
     }
+    
+    
+    private var infoActive: Bool = false
+    
     
     //MARK: UI Variables
     
     let infoButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.addTarget(self, action:#selector(startButtonSegue), for: .touchUpInside)
+        button.addTarget(self, action:#selector(infoButtonTapped), for: .touchUpInside)
         button.setImage(UIImage(named: "info"), for: .normal)
         return button
     }()
@@ -73,7 +81,7 @@ class initialViewController: UIViewController {
     
     private var instructionStepOne: UILabel = {
         let label = UILabel()
-        label.text = "Pick your own word to start with below."
+        label.text = "Pick your own word to start with."
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
         label.numberOfLines = 0
         label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
@@ -147,16 +155,17 @@ class initialViewController: UIViewController {
     
     //MARK: Adding outlets
     private func addOutlets() {
-//        self.view.addSubview(logoImage)
-//        self.view.addSubview(containerView)
-//
-//        [instructionLabel, instructionStepOne, instructionStepTwo, instructionStepThree, instructionStepFour].forEach { (view) in
-//            self.containerView.addSubview(view)
-//        }
+
+        
         self.view.addSubview(infoButton)
         self.view.addSubview(reminderLabel)
         self.view.addSubview(wordTextField)
         self.view.addSubview(textFieldUnderline)
+        self.view.addSubview(containerView)
+        
+        [instructionLabel, instructionStepOne, instructionStepTwo, instructionStepThree, instructionStepFour].forEach { (view) in
+            self.containerView.addSubview(view)
+        }
         self.view.addSubview(startButton)
         
     }
@@ -167,51 +176,51 @@ class initialViewController: UIViewController {
     private func setConstraints() {
         
         
-//        containerView.snp.makeConstraints { (make) in
-//            make.left.equalToSuperview().offset(50)
-//            make.right.equalToSuperview().offset(-50)
-//            make.height.equalTo(280)
-//            make.top.equalToSuperview().offset(160)
-//        }
-//
-//        instructionLabel.snp.makeConstraints { (make) in
-//            make.left.equalToSuperview().offset(22)
-//            make.top.equalToSuperview().offset(22)
-//        }
-//
-//        instructionStepOne.snp.makeConstraints { (make) in
-//            make.top.equalTo(instructionLabel.snp.bottom).offset(15)
-//            make.left.equalToSuperview().offset(22)
-//            make.right.equalToSuperview().offset(-22)
-//        }
-//
-//        instructionStepTwo.snp.makeConstraints { (make) in
-//            make.top.equalTo(instructionStepOne.snp.bottom).offset(15)
-//            make.left.equalToSuperview().offset(22)
-//            make.right.equalToSuperview().offset(-22)
-//        }
-//
-//        instructionStepThree.snp.makeConstraints { (make) in
-//            make.top.equalTo(instructionStepTwo.snp.bottom).offset(15)
-//            make.left.equalToSuperview().offset(22)
-//            make.right.equalToSuperview().offset(-22)
-//        }
-//
-//        instructionStepFour.snp.makeConstraints { (make) in
-//            make.top.equalTo(instructionStepThree.snp.bottom).offset(15)
-//            make.left.equalToSuperview().offset(22)
-//            make.right.equalToSuperview().offset(-22)
-//        }
+        containerView.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(50)
+            make.right.equalToSuperview().offset(-50)
+            make.height.equalTo(270)
+            make.top.equalToSuperview().offset(230)
+        }
+
+        instructionLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(22)
+            make.top.equalToSuperview().offset(22)
+        }
+
+        instructionStepOne.snp.makeConstraints { (make) in
+            make.top.equalTo(instructionLabel.snp.bottom).offset(15)
+            make.left.equalToSuperview().offset(22)
+            make.right.equalToSuperview().offset(-22)
+        }
+
+        instructionStepTwo.snp.makeConstraints { (make) in
+            make.top.equalTo(instructionStepOne.snp.bottom).offset(15)
+            make.left.equalToSuperview().offset(22)
+            make.right.equalToSuperview().offset(-22)
+        }
+
+        instructionStepThree.snp.makeConstraints { (make) in
+            make.top.equalTo(instructionStepTwo.snp.bottom).offset(15)
+            make.left.equalToSuperview().offset(22)
+            make.right.equalToSuperview().offset(-22)
+        }
+
+        instructionStepFour.snp.makeConstraints { (make) in
+            make.top.equalTo(instructionStepThree.snp.bottom).offset(15)
+            make.left.equalToSuperview().offset(22)
+            make.right.equalToSuperview().offset(-22)
+        }
         
         infoButton.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(120)
-            make.right.equalToSuperview().offset(-25)
+            make.right.equalToSuperview().offset(-30)
             make.height.equalTo(30)
             make.width.equalTo(30)
         }
         
         reminderLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(260)
+            make.top.equalToSuperview().offset(250)
             make.left.equalToSuperview().offset(50)
             make.right.equalToSuperview().offset(-50)
         }
@@ -237,6 +246,19 @@ class initialViewController: UIViewController {
             make.height.equalTo(55)
         }
         
+    }
+    
+    @objc private func infoButtonTapped() {
+        //if it's true
+        if infoActive {
+            infoActive = false
+            containerView.isHidden = true
+            startButton.isHidden = false
+        } else { // if it's false
+            infoActive = true
+            containerView.isHidden = false
+            startButton.isHidden = true
+        }
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {

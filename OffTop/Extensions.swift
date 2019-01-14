@@ -20,6 +20,12 @@ extension StringProtocol where Index == String.Index {
     }
 }
 
+extension String {
+    var isEmptyOrWhitespace: Bool {
+        return self.trimmingCharacters(in: CharacterSet.whitespaces) == ""
+    }
+}
+
 
 extension UIViewController {
     func hideKeyboardWhenTappedAround() {

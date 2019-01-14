@@ -17,6 +17,8 @@ class initialViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        startButton.isEnabled = false
+        startButton.alpha = 0.3
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         hideKeyboardWhenTappedAround()
@@ -130,6 +132,7 @@ class initialViewController: UIViewController {
         textField.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 30)
         textField.textAlignment = .center
         textField.backgroundColor = #colorLiteral(red: 0.01568627451, green: 0.03921568627, blue: 0.2745098039, alpha: 1)
+        textField.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
         return textField
     }()
     
@@ -290,6 +293,21 @@ class initialViewController: UIViewController {
         guard let word = wordTextField.text else {return}
         nextVC.currentWord = word.lowercased()
         self.navigationController?.pushViewController(nextVC, animated: true)
+        
+    }
+    
+    @objc private func textFieldEditingChanged(_ textField: UITextField) {
+        // Check for valid entries in both textfields in order to enable 'continue' button
+        let isWordValid = wordTextField.text != nil && !wordTextField.text!.isEmptyOrWhitespace
+        
+        guard isWordValid else {
+            startButton.isEnabled = false
+            startButton.alpha = 0.3
+            return
+        }
+        
+        startButton.isEnabled = true
+        startButton.alpha = 1.0
         
     }
     

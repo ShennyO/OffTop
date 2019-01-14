@@ -18,6 +18,7 @@ class SessionViewController: UIViewController {
     
     //MARK: VARIABLES
     
+    private var baseWords = ["go", "race", "attention", "luck", "cat"]
     var currentWord = ""
     private var streak = 0
     
@@ -200,15 +201,36 @@ class SessionViewController: UIViewController {
         Network.instance.fetch(word: ["rel_rhy" : word]) { (data, response) in
             let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as! [[String: Any]]
             
-            let randomInt = Int.random(in: 0 ..< (json?.count)!)
-            let word = json![randomInt]["word"] as! String
-            let wordArray = word.components(separatedBy: " ")
-            print(wordArray)
-            self.currentWord = wordArray.last!
+            guard let count = json?.count else {
+                
+                let randomInt = Int.random(in: 0 ..< (self.baseWords.count))
+                self.currentWord = self.baseWords[randomInt]
+                DispatchQueue.main.async {
+                    
+                    self.wordLabel.text = self.currentWord
+                    self.animateLabel()
+                    
+                    
+                }
+                return
+                
+            }
+            if count > 0 {
+                let randomInt = Int.random(in: 0 ..< (json?.count)!)
+                let word = json![randomInt]["word"] as! String
+                let wordArray = word.components(separatedBy: " ")
+                print(wordArray)
+                
+                self.currentWord = wordArray.last!
+            } else {
+                let randomInt = Int.random(in: 0 ..< (self.baseWords.count))
+                self.currentWord = self.baseWords[randomInt]
+            }
+            
             
             DispatchQueue.main.async {
                
-                self.wordLabel.text = wordArray.last
+                self.wordLabel.text = self.currentWord
                 self.animateLabel()
                 
                 

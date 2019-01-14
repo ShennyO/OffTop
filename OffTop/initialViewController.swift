@@ -11,8 +11,10 @@ import SnapKit
 
 class initialViewController: UIViewController {
     
+    //MARK: VARIABLES
     
     private var visibleStartButtonAlpha: CGFloat = 0.3
+    private var infoActive: Bool = false
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -54,7 +56,7 @@ class initialViewController: UIViewController {
     }
     
     
-    private var infoActive: Bool = false
+    
     
     
     //MARK: UI Variables
@@ -253,6 +255,9 @@ class initialViewController: UIViewController {
         }
         
     }
+    
+    
+    //MARK: OBJC FUNCTIONS
     
     @objc private func infoButtonTapped() {
         //if it's true, (if the container view is already showing)

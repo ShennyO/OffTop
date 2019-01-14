@@ -11,6 +11,9 @@ import SnapKit
 
 class initialViewController: UIViewController {
     
+    
+    private var visibleStartButtonAlpha: CGFloat = 0.3
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -18,7 +21,7 @@ class initialViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startButton.isEnabled = false
-        startButton.alpha = 0.3
+        startButton.alpha = visibleStartButtonAlpha
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         hideKeyboardWhenTappedAround()
@@ -260,7 +263,7 @@ class initialViewController: UIViewController {
             self.startButton.isHidden = false
             UIView.animate(withDuration: 0.3, animations: {
                 self.containerView.alpha = 0
-                self.startButton.alpha = 1
+                self.startButton.alpha = self.visibleStartButtonAlpha
             }, completion:  {
                 (value: Bool) in
                 self.containerView.isHidden = true
@@ -302,12 +305,14 @@ class initialViewController: UIViewController {
         
         guard isWordValid else {
             startButton.isEnabled = false
-            startButton.alpha = 0.3
+            visibleStartButtonAlpha = 0.3
+            startButton.alpha = visibleStartButtonAlpha
             return
         }
         
         startButton.isEnabled = true
-        startButton.alpha = 1.0
+        visibleStartButtonAlpha = 1.0
+        startButton.alpha = visibleStartButtonAlpha
         
     }
     

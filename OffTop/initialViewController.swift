@@ -249,15 +249,30 @@ class initialViewController: UIViewController {
     }
     
     @objc private func infoButtonTapped() {
-        //if it's true
+        //if it's true, (if the container view is already showing)
+        
         if infoActive {
             infoActive = false
-            containerView.isHidden = true
-            startButton.isHidden = false
-        } else { // if it's false
+            
+            self.startButton.isHidden = false
+            UIView.animate(withDuration: 0.3, animations: {
+                self.containerView.alpha = 0
+                self.startButton.alpha = 1
+            }, completion:  {
+                (value: Bool) in
+                self.containerView.isHidden = true
+            })
+            
+        } else { // if it's false, i.e. if it wasn't showing
             infoActive = true
-            containerView.isHidden = false
-            startButton.isHidden = true
+            self.containerView.isHidden = false
+            UIView.animate(withDuration: 0.3, animations: {
+                self.containerView.alpha = 1
+                self.startButton.alpha = 0
+            }, completion:  { (value: Bool) in
+                self.startButton.isHidden = true
+            })
+            
         }
     }
     

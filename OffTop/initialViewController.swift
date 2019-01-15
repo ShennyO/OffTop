@@ -33,7 +33,7 @@ class initialViewController: UIViewController {
         self.title = "Bars"
         addOutlets()
         setConstraints()
-        // Do any additional setup after loading the view.
+
     }
     
     
@@ -64,8 +64,8 @@ class initialViewController: UIViewController {
     
     let infoButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.addTarget(self, action:#selector(infoButtonTapped), for: .touchUpInside)
         button.setImage(UIImage(named: "info"), for: .normal)
+        button.addTarget(self, action:#selector(infoButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -223,7 +223,7 @@ class initialViewController: UIViewController {
         
         infoButton.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(120)
-            make.right.equalToSuperview().offset(-30)
+            make.right.equalToSuperview().offset(-22)
             make.height.equalTo(30)
             make.width.equalTo(30)
         }

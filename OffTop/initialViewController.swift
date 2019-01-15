@@ -89,7 +89,7 @@ class initialViewController: UIViewController {
     
     private var instructionStepOne: UILabel = {
         let label = UILabel()
-        label.text = "Pick your own word to start with."
+        label.text = "Pick your own word."
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
         label.numberOfLines = 0
         label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
@@ -98,7 +98,7 @@ class initialViewController: UIViewController {
     
     private var instructionStepTwo: UILabel = {
         let label = UILabel()
-        label.text = "Say a line using the word as the final punchline."
+        label.text = "Say a line using the word."
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
         label.numberOfLines = 0
         label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
@@ -107,7 +107,7 @@ class initialViewController: UIViewController {
     
     private var instructionStepThree: UILabel = {
         let label = UILabel()
-        label.text = "A new rhyming word will be provided afterwards."
+        label.text = "Voice recognition checks for word usage."
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
         label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
         label.numberOfLines = 0
@@ -115,6 +115,15 @@ class initialViewController: UIViewController {
     }()
     
     private var instructionStepFour: UILabel = {
+        let label = UILabel()
+        label.text = "If used, a new rhyming word will be provided."
+        label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
+        label.textColor = #colorLiteral(red: 0.9473350254, green: 0.9473350254, blue: 0.9473350254, alpha: 1)
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    private var instructionStepFive: UILabel = {
         let label = UILabel()
         label.text = "How many lines can you come up with?"
         label.font = UIFont(name: "AppleSDGothicNeo-Bold", size: 15)
@@ -172,7 +181,7 @@ class initialViewController: UIViewController {
         self.view.addSubview(textFieldUnderline)
         self.view.addSubview(containerView)
         
-        [instructionLabel, instructionStepOne, instructionStepTwo, instructionStepThree, instructionStepFour].forEach { (view) in
+        [instructionLabel, instructionStepOne, instructionStepTwo, instructionStepThree, instructionStepFour, instructionStepFive].forEach { (view) in
             self.containerView.addSubview(view)
         }
         self.view.addSubview(startButton)
@@ -188,7 +197,7 @@ class initialViewController: UIViewController {
         containerView.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(50)
             make.right.equalToSuperview().offset(-50)
-            make.height.equalTo(270)
+            make.height.equalTo(300)
             make.top.equalToSuperview().offset(230)
         }
 
@@ -208,7 +217,7 @@ class initialViewController: UIViewController {
             make.left.equalToSuperview().offset(22)
             make.right.equalToSuperview().offset(-22)
         }
-
+        
         instructionStepThree.snp.makeConstraints { (make) in
             make.top.equalTo(instructionStepTwo.snp.bottom).offset(15)
             make.left.equalToSuperview().offset(22)
@@ -217,6 +226,12 @@ class initialViewController: UIViewController {
 
         instructionStepFour.snp.makeConstraints { (make) in
             make.top.equalTo(instructionStepThree.snp.bottom).offset(15)
+            make.left.equalToSuperview().offset(22)
+            make.right.equalToSuperview().offset(-22)
+        }
+
+        instructionStepFive.snp.makeConstraints { (make) in
+            make.top.equalTo(instructionStepFour.snp.bottom).offset(15)
             make.left.equalToSuperview().offset(22)
             make.right.equalToSuperview().offset(-22)
         }

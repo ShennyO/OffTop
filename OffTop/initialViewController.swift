@@ -22,6 +22,7 @@ class initialViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        wordTextField.delegate = self
         startButton.isEnabled = false
         startButton.alpha = visibleStartButtonAlpha
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -321,7 +322,11 @@ class initialViewController: UIViewController {
         
     }
     
-    
-    
+}
 
+extension initialViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
 }
